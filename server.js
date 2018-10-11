@@ -7,12 +7,12 @@ const csv = require('csv-parse')
 const fs = require('fs')
 const results = [];
  
-fs.createReadStream('private/data_table_1.csv')
-  .pipe(csv({ delimiter: ';' }))
-  .on('data', function(csvrow) {
-                results.push(csvrow[0]);} )
-  .on('end', () => {
-  });
+//fs.createReadStream('private/data_table_1.csv')
+//  .pipe(csv({ delimiter: ';' }))
+//  .on('data', function(csvrow) {
+//                results.push(csvrow[0]);} )
+//  .on('end', () => {
+//  });
 
 app.set('view engine', 'ejs');
 app.use(require("body-parser").urlencoded({extended: false}));
@@ -29,7 +29,7 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
 app.get('/', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
-  res.render('index.html',{data22 : results});
+  res.render('index.html'); //,{data22 : results}
 });
 
 // error handling
