@@ -21,7 +21,8 @@
             background: lightsteelblue;   
             border: 1px;      
             border-radius: 2px;           
-            pointer-events: none;         
+            pointer-events: none; 
+            z-index: 2;
         }
         #tooltip h4{
             margin:0;
@@ -49,6 +50,12 @@
         }
         #tooltip tr td:nth-child(2){
             text-align:center;
+        }
+        .svg-container{
+            margin:0; padding:0; overflow:hidden;
+        }
+        .svg-content{
+            position:fixed; top:0; left:0; height:100%; width:100%;z-index: 1;
         }
     </style>
 </head>
