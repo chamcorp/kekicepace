@@ -8,9 +8,16 @@
     <div class="link-menu">
         <a href=/>retour homepage</a>
     </div>
+    <h2>CSV DATA</h2>
     <div>
-        <% data22.forEach(function(article) { %>
+        <% data_csv.forEach(function(article) { %>
         <li> Titre : <%= article[2] %> Par <%= article[0] %> le <%= article[1] %></li>
+        <% }); %>
+    </div>
+    <h2>MONGODB DATA</h2>
+    <div>
+        <% data_db.forEach(function(article) { %>
+        <li> Titre : <%= article.song %></li>
         <% }); %>
     </div>
 </body>

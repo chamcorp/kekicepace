@@ -6,6 +6,7 @@ var express = require('express'),
 const csv = require('csv-parse')
 const fs = require('fs')
 const results = [];
+const results_db = [];
 
 const mongodb = require('mongodb');
 
@@ -51,15 +52,19 @@ mongodb.MongoClient.connect(uri, function(err, client) {
     db.listCollections({name: 'articles'})
     .next(function(err, collinfo) {
         if (collinfo) {
-//            let songs = db.collection('songs');
-//            console.log("DROPPING");
-//            // The collection exists
-//            songs.drop(function (err) {
-//                if(err) throw err;
+            let songs = db.collection('articles');
+            console.log("FINDING");
+            // The collection exists
+            songs.find().toArray(function (err, articles) {
+                if(err) throw err;
+                 articles.forEach(function (article) {
+                    results_db.push(article);
+                  });
+                console.log(results_db);
                 client.close(function (err) {
                   if(err) throw err;
                 });
-//            });
+            });
         }
         else{  
             /*
@@ -108,7 +113,7 @@ app.get('/', function (req, res) {
 app.get('/list', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
-  res.render('list.html',{data22 : results});
+  res.render('list.html',{data_csv : results, data_db : results_db});
 });
 
 // error handling
