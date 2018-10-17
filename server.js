@@ -48,25 +48,25 @@ mongodb.MongoClient.connect(uri, function(err, client) {
   let db = client.db('heroku_0mpp4r58')
 
    // Note that the insert method can take either an array or a dict.
-    db.listCollections({name: 'songs'})
+    db.listCollections({name: 'articles'})
     .next(function(err, collinfo) {
         if (collinfo) {
-            let songs = db.collection('songs');
-            console.log("DROPPING");
-            // The collection exists
-            songs.drop(function (err) {
-                if(err) throw err;
+//            let songs = db.collection('songs');
+//            console.log("DROPPING");
+//            // The collection exists
+//            songs.drop(function (err) {
+//                if(err) throw err;
                 client.close(function (err) {
                   if(err) throw err;
                 });
-            });
+//            });
         }
         else{  
             /*
            * First we'll add a few songs. Nothing is required to create the
            * songs collection; it is created automatically when we insert.
            */
-            let songs = db.collection('songs');
+            let songs = db.collection('articles');
             console.log("WRITING");
             songs.insert(seedData, function(err, result) {
                 if(err) throw err;
@@ -79,12 +79,13 @@ mongodb.MongoClient.connect(uri, function(err, client) {
     });
 });
  
-//fs.createReadStream('private/data_table_1.csv')
-//  .pipe(csv({ delimiter: ';' }))
-//  .on('data', function(csvrow) {
-//                results.push(csvrow[0]);} )
-//  .on('end', () => {
-//  });
+fs.createReadStream('private/articles_data.csv')
+  .pipe(csv({ delimiter: ';' }))
+  .on('data', function(csvrow) {
+                results.push(csvrow);} )
+  .on('end', () => {
+    console.log(results);
+  });
 
 app.set('view engine', 'ejs');
 app.use(require("body-parser").urlencoded({extended: false}));
@@ -102,6 +103,12 @@ app.get('/', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
   res.render('index.html'); //,{data22 : results}
+});
+
+app.get('/list', function (req, res) {
+  // try to initialize the db on every request if it's not already
+  // initialized.
+  res.render('list.html',{data22 : results});
 });
 
 // error handling
