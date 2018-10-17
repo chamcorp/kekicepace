@@ -6,6 +6,78 @@ var express = require('express'),
 const csv = require('csv-parse')
 const fs = require('fs')
 const results = [];
+
+const mongodb = require('mongodb');
+
+// Create seed data
+
+let seedData = [
+  {
+    decade: '1970s',
+    artist: 'Debby Boone',
+    song: 'You Light Up My Life',
+    weeksAtOne: 10
+  },
+  {
+    decade: '1980s',
+    artist: 'Olivia Newton-John',
+    song: 'Physical',
+    weeksAtOne: 10
+  },
+  {
+    decade: '1990s',
+    artist: 'Mariah Carey',
+    song: 'One Sweet Day',
+    weeksAtOne: 16
+  }
+];
+
+// Standard URI format: mongodb://[dbuser:dbpassword@]host:port/dbname
+
+let uri = 'mongodb://heroku_0mpp4r58:g7pt0jt9tul537idbspn6i1tlk@ds161833.mlab.com:61833/heroku_0mpp4r58';
+
+mongodb.MongoClient.connect(uri, function(err, client) {
+
+  if(err) throw err;
+
+  /*
+   * Get the database from the client. Nothing is required to create a
+   * new database, it is created automatically when we insert.
+   */
+
+  let db = client.db('heroku_0mpp4r58')
+
+   // Note that the insert method can take either an array or a dict.
+    db.listCollections({name: 'songs'})
+    .next(function(err, collinfo) {
+        if (collinfo) {
+            let songs = db.collection('songs');
+            console.log("DROPPING");
+            // The collection exists
+            songs.drop(function (err) {
+                if(err) throw err;
+                client.close(function (err) {
+                  if(err) throw err;
+                });
+            });
+        }
+        else{  
+            /*
+           * First we'll add a few songs. Nothing is required to create the
+           * songs collection; it is created automatically when we insert.
+           */
+            let songs = db.collection('songs');
+            console.log("WRITING");
+            songs.insert(seedData, function(err, result) {
+                if(err) throw err;
+                // Only close the connection when your app is terminating.
+                client.close(function (err) {
+                  if(err) throw err;
+                });
+            });
+        }
+    });
+});
  
 //fs.createReadStream('private/data_table_1.csv')
 //  .pipe(csv({ delimiter: ';' }))
