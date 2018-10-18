@@ -14,22 +14,19 @@ const mongodb = require('mongodb');
 
 let seedData = [
   {
-    decade: '1970s',
-    artist: 'Debby Boone',
-    song: 'You Light Up My Life',
-    weeksAtOne: 10
+    titre: 'benalla sous leau',
+    journal: 'Le Figaro',
+    date: '01/01/1991'
   },
   {
-    decade: '1980s',
-    artist: 'Olivia Newton-John',
-    song: 'Physical',
-    weeksAtOne: 10
+    titre: 'benalla sous leau',
+    journal: 'Le Monde',
+    date: '01/01/1998'
   },
   {
-    decade: '1990s',
-    artist: 'Mariah Carey',
-    song: 'One Sweet Day',
-    weeksAtOne: 16
+    titre: 'benalla sous leau',
+    journal: 'Libération',
+    date: '01/01/2010'
   }
 ];
 
