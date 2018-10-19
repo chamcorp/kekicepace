@@ -54,10 +54,10 @@ mongodb.MongoClient.connect(uri, function(err, client) {
             // The collection exists
             songs.find().toArray(function (err, articles) {
                 if(err) throw err;
-                 articles.forEach(function (article) {
-                    results_db.push(article);
-                  });
-                console.log(results_db);
+//                 articles.forEach(function (article) {
+//                    results_db.push(article);
+//                  });
+//                console.log(results_db);
                 client.close(function (err) {
                   if(err) throw err;
                 });
@@ -110,7 +110,57 @@ app.get('/', function (req, res) {
 app.get('/list', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
-  res.render('list.html',{data_csv : results, data_db : results_db});
+    mongodb.MongoClient.connect(uri, function(err, client) {
+
+    if(err) throw err;
+
+    /*
+    * Get the database from the client. Nothing is required to create a
+    * new database, it is created automatically when we insert.
+    */
+
+    let db = client.db('heroku_0mpp4r58')
+
+    // Note that the insert method can take either an array or a dict.
+    db.listCollections({name: 'articles'})
+    .next(function(err, collinfo) {
+        if (collinfo) {
+            let songs = db.collection('articles');
+            console.log("FINDING");
+            // The collection exists
+            songs.find().toArray(function (err, articles) {
+                if(err) throw err;
+                while(results_db.length > 0) {
+                    results_db.pop();
+                }
+                 articles.forEach(function (article) {
+                    results_db.push(article);
+                  });
+                console.log(results_db);
+                res.render('list.html',{data_csv : results, data_db : results_db});
+                client.close(function (err) {
+                  if(err) throw err;
+                });
+            });
+        }
+        else{  
+            /*
+           * First we'll add a few songs. Nothing is required to create the
+           * songs collection; it is created automatically when we insert.
+           */
+            let songs = db.collection('articles');
+            console.log("WRITING");
+            songs.insert(seedData, function(err, result) {
+                if(err) throw err;
+                res.render('list.html',{data_csv : results, data_db : results_db});
+                // Only close the connection when your app is terminating.
+                client.close(function (err) {
+                  if(err) throw err;
+                });
+            });
+        }
+    });
+    });
 });
 
 // error handling
