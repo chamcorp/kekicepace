@@ -15,6 +15,13 @@
         <% }); %>
     </div>
     <h2>MONGODB DATA</h2>
+    <h3>Sources</h3>
+    <div>
+        <% count.forEach(function(journal) { %>
+        <li><%= journal.count %> : <%= journal._id %> articles.</li>    
+        <% }); %>    
+    </div>
+    <h3>Articles</h3>
     <div>
         <% data_db.forEach(function(article) { %>
         <details>

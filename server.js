@@ -7,6 +7,7 @@ const csv = require('csv-parse')
 const fs = require('fs')
 const results = [];
 const results_db = [];
+const results_counts_db = [];
 
 const mongodb = require('mongodb');
 
@@ -136,6 +137,18 @@ app.get('/list', function (req, res) {
             let songs = db.collection('articles');
             console.log("FINDING");
             // The collection exists
+            //articles by journal
+//            songs.count().then((journalCount)=>{
+            songs.aggregate([{"$group" : {_id:"$journal", count:{$sum:1}}}])
+            .toArray(function(err,journalCounts) {
+                if(err) throw err;
+                while(results_counts_db.length > 0) {
+                    results_counts_db.pop();
+                }
+                journalCounts.forEach(function (journalCount){
+                    results_counts_db.push(journalCount);
+                });
+            //articles
             songs.find().collation( { locale: "fr" } ).sort({titre: 1}).toArray(function (err, articles) {
                 if(err) throw err;
                 while(results_db.length > 0) {
@@ -147,10 +160,11 @@ app.get('/list', function (req, res) {
                     results_db.push(article);
                   });
                 //console.log(results_db);
-                res.render('list.html',{data_csv : results, data_db : results_db});
+                res.render('list.html',{data_csv : results, data_db : results_db, count : results_counts_db});
                 client.close(function (err) {
                   if(err) throw err;
                 });
+            });
             });
         }
         else{  
