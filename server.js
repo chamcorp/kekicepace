@@ -136,7 +136,7 @@ app.get('/list', function (req, res) {
             let songs = db.collection('articles');
             console.log("FINDING");
             // The collection exists
-            songs.find().toArray(function (err, articles) {
+            songs.find().sort({date:1 ,titre: 1}).toArray(function (err, articles) {
                 if(err) throw err;
                 while(results_db.length > 0) {
                     results_db.pop();
