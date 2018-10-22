@@ -142,6 +142,8 @@ app.get('/list', function (req, res) {
                     results_db.pop();
                 }
                  articles.forEach(function (article) {
+                    dateArticle = new Date(article.date);
+                    article.date = dateArticle.toLocaleDateString();
                     results_db.push(article);
                   });
                 //console.log(results_db);
