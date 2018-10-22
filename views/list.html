@@ -17,7 +17,10 @@
     <h2>MONGODB DATA</h2>
     <div>
         <% data_db.forEach(function(article) { %>
-        <li> Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a></li>
+        <details>
+            <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a></summary>
+            <%= article.article %>
+        </details>
         <% }); %>
     </div>
 </body>
