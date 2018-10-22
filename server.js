@@ -80,14 +80,22 @@ mongodb.MongoClient.connect(uri, function(err, client) {
         }
     });
 });
- 
-fs.createReadStream('private/articles_data.csv')
-  .pipe(csv({ delimiter: ';' }))
-  .on('data', function(csvrow) {
-                results.push(csvrow);} )
-  .on('end', () => {
-    console.log(results);
-  });
+
+var limit=15;
+var count=0;
+readStream = fs.createReadStream('private/articles_data.csv')
+//readStream = fs.createReadStream('../Data/articles-1.csv')
+    .pipe(csv({ delimiter: ';' }))
+    .on('data', function(csvrow) {
+        count++;
+        if(count<15){
+            results.push(csvrow);
+            readStream.end();
+        }
+    } )
+    .on('end', () => {
+        //console.log(results);
+    });
 
 app.set('view engine', 'ejs');
 app.use(require("body-parser").urlencoded({extended: false}));
@@ -136,7 +144,7 @@ app.get('/list', function (req, res) {
                  articles.forEach(function (article) {
                     results_db.push(article);
                   });
-                console.log(results_db);
+                //console.log(results_db);
                 res.render('list.html',{data_csv : results, data_db : results_db});
                 client.close(function (err) {
                   if(err) throw err;
