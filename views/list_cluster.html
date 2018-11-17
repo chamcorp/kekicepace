@@ -7,20 +7,9 @@
 <body>
     <div class="link-menu">
         <a href=/>retour homepage</a>
-    </div>
-    <h2>CSV DATA</h2>
-    <div>
-        <% data_csv.forEach(function(article) { %>
-        <li> Titre : <%= article[2] %> Par <%= article[0] %> le <%= article[1] %></li>
-        <% }); %>
+        <a href=/link.html>articles</a>
     </div>
     <h2>MONGODB DATA</h2>
-    <h3>Sources</h3>
-    <div>
-        <% count.forEach(function(journal) { %>
-        <li><%= journal.count %> : <%= journal._id %> articles.</li>    
-        <% }); %>    
-    </div>
     <h3>Articles</h3>
     <div>
         <% data_db.forEach(function(article) { %>
