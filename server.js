@@ -187,7 +187,7 @@ app.get('/list', function (req, res) {
     });
 });
 
-app.get('/list', function (req, res) {
+app.get('/list_cluster', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
     mongodb.MongoClient.connect(uri, function(err, client) {
