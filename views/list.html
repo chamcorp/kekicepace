@@ -25,7 +25,7 @@
     <div>
         <% data_db.forEach(function(article) { %>
         <details>
-            <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster :<%= article.cluster %> </summary>
+            <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster :<%= article.cluster %> - Sujets :<%= article.sujets %> </summary>
             <%= article.article %>
         </details>
         <% }); %>
