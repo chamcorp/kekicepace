@@ -225,7 +225,6 @@ app.get('/list_cluster', function (req, res) {
                   if(err) throw err;
                 });
             });
-            });
         }
         else{  
             let songs = db.collection('articles');
