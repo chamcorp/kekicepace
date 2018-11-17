@@ -187,6 +187,58 @@ app.get('/list', function (req, res) {
     });
 });
 
+app.get('/list', function (req, res) {
+  // try to initialize the db on every request if it's not already
+  // initialized.
+    mongodb.MongoClient.connect(uri, function(err, client) {
+
+    if(err) throw err;
+
+    /*
+    * Get the database from the client. Nothing is required to create a
+    * new database, it is created automatically when we insert.
+    */
+
+    let db = client.db('heroku_0mpp4r58')
+
+    // Note that the insert method can take either an array or a dict.
+    db.listCollections({name: 'articles'})
+    .next(function(err, collinfo) {
+        if (collinfo) {
+            let songs = db.collection('articles');
+            console.log("FINDING");
+            // The collection exists
+            //articles
+            songs.find().collation( { locale: "fr" } ).sort({titre: 1}).toArray(function (err, articles) {
+                if(err) throw err;
+                while(results_db.length > 0) {
+                    results_db.pop();
+                }
+                 articles.forEach(function (article) {
+                    dateArticle = new Date(article.date);
+                    article.date = dateArticle.toLocaleDateString();
+                    results_db.push(article);
+                  });
+                //console.log(results_db);
+                res.render('list_cluster.html',{data_db : results_db});
+                client.close(function (err) {
+                  if(err) throw err;
+                });
+            });
+            });
+        }
+        else{  
+            let songs = db.collection('articles');
+            console.log("NOT FINDING");
+            res.render('list_cluster.html',{data_db : results_db});
+            client.close(function (err) {
+              if(err) throw err;
+            });
+        }
+    });
+    });
+});
+
 // error handling
 app.use(function(err, req, res, next){
   console.error(err.stack);
