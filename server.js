@@ -209,7 +209,7 @@ app.get('/list_cluster', function (req, res) {
             console.log("FINDING");
             // The collection exists
             //articles
-            songs.find().collation( { locale: "fr" } ).sort({cluster: 1}).toArray(function (err, articles) {
+            songs.find().collation( { locale: "fr" } ).sort({cluster: -1}).toArray(function (err, articles) {
                 if(err) throw err;
                 while(results_db.length > 0) {
                     results_db.pop();
