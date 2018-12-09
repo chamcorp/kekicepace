@@ -17,7 +17,7 @@
             unique_cluster.forEach(function(cluster){
                 var sub_data = data_db.filter(function(article) { return article.cluster == cluster; });
                 sub_data.forEach(function(article) { %>
-                <div style="border: 1px solid #ccc!important;">
+                <div style="border: 1px solid #ccc!important;margin-top:20px;">
                     <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> - Sujets : <%= article.sujets %> </summary>
                     <%= article.article %>
                 </div>
