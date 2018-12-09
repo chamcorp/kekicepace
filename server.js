@@ -148,6 +148,7 @@ app.get('/list', function (req, res) {
                 journalCounts.forEach(function (journalCount){
                     results_counts_db.push(journalCount);
                 });
+				
             //articles
             songs.find().collation( { locale: "fr" } ).sort({titre: 1}).toArray(function (err, articles) {
                 if(err) throw err;
