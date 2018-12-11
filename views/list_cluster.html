@@ -9,19 +9,21 @@
         <a href=/>retour homepage</a>
         <a href=/list>articles</a>
     </div>
-    <div style="position:absolute;align-items: center;justify-content: center;">
+    <div>
         <% for(var i; i< unique_cluster.length; i++){
                 var sub_data = data_db.filter(function(article){article.cluster === unique_cluster[i]}); %>
                 
-                <div style="border: 1px solid #ccc!important;">
+                <div>
             
                     <% sub_data.forEach(function(article) { %>
                         <details>
                             <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> - Sujets : <%= article.sujets %> </summary>
                             <%= article.article %>
                         </details>
-                    <% });};%>
+                    <% });%>
                     
-            </div>
+                </div>
+                
+         <% }; %>
     </div>
 </body>
