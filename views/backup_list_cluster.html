@@ -16,14 +16,23 @@ Created on Sun Dec  9 21:31:28 2018
         <a href=/>retour homepage</a>
         <a href=/list>articles</a>
     </div>
-    <h2>MONGODB DATA</h2>
-    <h3>Articles</h3>
     <div>
-        <% data_db.forEach(function(article) { %>
-        <details>
-            <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> - Sujets : <%= article.sujets %> </summary>
-            <%= article.article %>
-        </details>
-        <% }); %>
+        <% function onlyUnique(value, index, self) { return self.indexOf(value) === index;};
+            console.log(data_db.cluster);
+            var unique_cluster = data_db.cluster.filter(onlyUnique);
+            console.log(unique_cluster);
+            
+            unique_cluster.forEach(function(cluster){
+                var sub_data = data_db.filter(function(article) { return article.cluster == cluster; });%>
+                  
+                <div style="border: 1px solid #ccc!important;margin-top:20px;position:absolute;align-items: center;justify-content: center;">
+                      <% sub_data.forEach(function(article) { %>
+                                <details>
+                                    <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> </summary>
+                                    <%= article.article %>
+                                </details>
+                      <% }); %>
+                </div>
+      <% }); %>
     </div>
 </body>

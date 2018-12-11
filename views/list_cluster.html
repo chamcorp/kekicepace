@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <head>
     <title>Kékicépacé</title>
     <meta charset="utf-8">
@@ -8,23 +9,17 @@
         <a href=/>retour homepage</a>
         <a href=/list>articles</a>
     </div>
-    <div>
-        <% function onlyUnique(value, index, self) { return self.indexOf(value) === index;};
-            console.log(data_db.cluster);
-            var unique_cluster = data_db.cluster.filter(onlyUnique);
-            console.log(unique_cluster);
-            
-            unique_cluster.forEach(function(cluster){
-                var sub_data = data_db.filter(function(article) { return article.cluster == cluster; });%>
-                  
-                <div style="border: 1px solid #ccc!important;margin-top:20px;position:absolute;align-items: center;justify-content: center;">
-                      <% sub_data.forEach(function(article) { %>
-                                <details>
-                                    <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> </summary>
-                                    <%= article.article %>
-                                </details>
-                      <% }); %>
-                </div>
-      <% }); %>
+    <div style="position:absolute;align-items: center;justify-content: center;">
+        <% 
+        function onlyUnique(value, index, self) { return self.indexOf(value) === index;};
+        console.log(data_db.cluster);
+        var unique_cluster = data_db.cluster.filter(onlyUnique);
+        console.log(unique_cluster);
+        data_db.forEach(function(article) { %>
+        <details>
+            <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> - Sujets : <%= article.sujets %> </summary>
+            <%= article.article %>
+        </details>
+        <% }); %>
     </div>
 </body>
