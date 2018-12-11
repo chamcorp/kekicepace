@@ -10,17 +10,28 @@
     </div>
     <h2>News <%= Date(); %> </h2>
     <div>
-        <% 
-            function onlyUnique(value, index, self) { return self.indexOf(value) === index;}
-            var unique_cluster = data_db.filter(onlyUnique);
+        <% function onlyUnique(value, index, self) { return self.indexOf(value) === index;}
+            var unique_cluster = data_db.cluster.filter(onlyUnique);
             
             unique_cluster.forEach(function(cluster){
-                var sub_data = data_db.filter(function(article) { return article.cluster == cluster; });
-                sub_data.forEach(function(article) { %>
-                <div style="border: 1px solid #ccc!important;margin-top:20px;">
-                    <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> - Sujets : <%= article.sujets %> </summary>
-                    <%= article.article %>
+                var sub_data = data_db.filter(function(article) { return article.cluster == cluster; }) %>  
+                
+                <div style="border: 1px solid #ccc!important;margin-top:20px;position:absolute;align-items: center;justify-content: center;">
+                    <% var unique_granular_cluster = sub_data.granular_cluster.filter(onlyUnique);
+                        unique_granular_cluster.forEach(function(granular_cluster){%>
+                        
+                        <div style="border: 1px solid #ccc!important;margin-top:20px;position: absolute;align-items: center;justify-content: center;">
+                        
+                            <% var sub_granular_data = sub_data.filter(function(article) { return article.granular_cluster == granular_cluster; });
+                                sub_granular_data.forEach(function(article) { %>
+                                <details>
+                                    <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> - Sujets : <%= article.sujets %> </summary>
+                                    <%= article.article %>
+                                </details>
+                            <% }); %>
+                        </div>
+                    <% }); %>
                 </div>
-      <% })}); %>
+      <% }); %>
     </div>
 </body>
