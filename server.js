@@ -131,43 +131,46 @@ app.get('/list', function (req, res) {
     let db = client.db('heroku_0mpp4r58')
 
     // Note that the insert method can take either an array or a dict.
-    db.listCollections({name: 'articles'})
-    .next(function(err, collinfo) {
+    db.listCollections({name: 'articles'}).next(function(err, collinfo) {
         if (collinfo) {
-            let songs = db.collection('articles');
-            console.log("FINDING");
-            // The collection exists
-            //articles by journal
-//            songs.count().then((journalCount)=>{
-            songs.aggregate([{"$group" : {_id:"$journal", count:{$sum:1}}}])
-            .toArray(function(err,journalCounts) {
-                if(err) throw err;
-                while(results_counts_db.length > 0) {
-                    results_counts_db.pop();
-                }
-                journalCounts.forEach(function (journalCount){
-                    results_counts_db.push(journalCount);
-                });
+				let songs = db.collection('articles');
+
+				// The collection exists
+				console.log("FINDING");
 				
-            //articles
-            songs.find().collation( { locale: "fr" } ).sort({titre: 1}).toArray(function (err, articles) {
-                if(err) throw err;
-                while(results_db.length > 0) {
-                    results_db.pop();
-                }
-                 articles.forEach(function (article) {
-                    dateArticle = new Date(article.date);
-                    article.date = dateArticle.toLocaleDateString();
-                    results_db.push(article);
-                  });
-                //console.log(results_db);
-                res.render('list.html',{data_csv : results, data_db : results_db, count : results_counts_db});
-                client.close(function (err) {
-                  if(err) throw err;
-                });
-            });
-            });
-        }
+				//articles by journal
+				songs.aggregate([{"$group" : {_id:"$journal", count:{$sum:1}}}])
+				.toArray(function(err,journalCounts) {
+					if(err) throw err;
+					while(results_counts_db.length > 0) {
+						results_counts_db.pop();
+					}
+					journalCounts.forEach(function (journalCount){
+						results_counts_db.push(journalCount);
+					});
+					
+				//articles
+				songs.find().collation( { locale: "fr" } ).sort({titre: 1}).toArray(function (err, articles) {
+					if(err) throw err;
+					while(results_db.length > 0) {
+						results_db.pop();
+					}
+					 articles.forEach(function (article) {
+						dateArticle = new Date(article.date);
+						article.date = dateArticle.toLocaleDateString();
+						results_db.push(article);
+					  });
+					  
+					//console.log(results_db);
+					res.render('list.html',{data_csv : results, data_db : results_db, count : results_counts_db});
+					client.close(function (err) {
+					  if(err) throw err;
+					});
+				});
+				
+				
+				});
+			}
         else{  
             /*
            * First we'll add a few songs. Nothing is required to create the
@@ -203,12 +206,12 @@ app.get('/list_cluster', function (req, res) {
     let db = client.db('heroku_0mpp4r58')
 
     // Note that the insert method can take either an array or a dict.
-    db.listCollections({name: 'articles'})
-    .next(function(err, collinfo) {
+    db.listCollections({name: 'articles'}).next(function(err, collinfo) {
         if (collinfo) {
+			
             let songs = db.collection('articles');
-            console.log("FINDING");
-            // The collection exists
+			var unique_cluster = songs.inventory.distinct( "cluster" )
+            
             //articles
             songs.find().collation( { locale: "fr" } ).sort({cluster: -1}).toArray(function (err, articles) {
                 if(err) throw err;
@@ -216,21 +219,19 @@ app.get('/list_cluster', function (req, res) {
                     results_db.pop();
                 }
                  articles.forEach(function (article) {
-                    dateArticle = new Date(article.date);
-                    article.date = dateArticle.toLocaleDateString();
-                    results_db.push(article);
-                  });
-                //console.log(results_db);
+										dateArticle = new Date(article.date);
+										article.date = dateArticle.toLocaleDateString();
+										results_db.push(article);
+									});
+
                 res.render('list_cluster.html',{data_db : results_db});
-                client.close(function (err) {
-                  if(err) throw err;
-                });
+                client.close(function (err) {if(err) throw err;});
             });
         }
         else{  
             let songs = db.collection('articles');
             console.log("NOT FINDING");
-            res.render('list_cluster.html',{data_db : results_db});
+            res.render('list_cluster.html',{data_db : results_db, liste_cluster: unique_cluster});
             client.close(function (err) {
               if(err) throw err;
             });
