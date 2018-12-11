@@ -11,17 +11,12 @@
     </div>
     <div style="position:absolute;align-items: center;justify-content: center;">
         <% 
-        unique_cluster.forEach(function(cluster) {
-        var sub_data = data_db.filter(function(article) { return article.cluster == cluster; });%>
-        
-            <div style="border: 1px solid #ccc!important;">
-                 <% sub_data.forEach(function(article) { %>
-                            <details>
-                                <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> - Sujets : <%= article.sujets %> </summary>
-                                <%= article.article %>
-                            </details>
-                <% }); %>
-           </div> 
-        <% }); %>    
+        unique_cluster.forEach(function(cluster) { console.log(cluster));
+        data_db.forEach(function(article) { %>
+        <details>
+            <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> - Sujets : <%= article.sujets %> </summary>
+            <%= article.article %>
+        </details>
+        <% }); %>
     </div>
 </body>
