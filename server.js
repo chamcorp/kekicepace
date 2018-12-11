@@ -8,6 +8,7 @@ const fs = require('fs')
 const results = [];
 const results_db = [];
 const results_counts_db = [];
+const unique_cluster = [];
 
 const mongodb = require('mongodb');
 
@@ -139,8 +140,7 @@ app.get('/list', function (req, res) {
 				console.log("FINDING");
 				
 				//articles by journal
-				songs.aggregate([{"$group" : {_id:"$journal", count:{$sum:1}}}])
-				.toArray(function(err,journalCounts) {
+				songs.aggregate([{"$group" : {_id:"$journal", count:{$sum:1}}}]).toArray(function(err,journalCounts) {
 					if(err) throw err;
 					while(results_counts_db.length > 0) {
 						results_counts_db.pop();
@@ -210,7 +210,7 @@ app.get('/list_cluster', function (req, res) {
         if (collinfo) {
 			
             let songs = db.collection('articles');
-			var unique_cluster = songs.inventory.distinct( "cluster" )
+			unique_cluster = songs.inventory.distinct( "cluster" );
             
             //articles
             songs.find().collation( { locale: "fr" } ).sort({cluster: -1}).toArray(function (err, articles) {
