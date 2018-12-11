@@ -12,7 +12,6 @@
     <div style="position:absolute;align-items: center;justify-content: center;">
         <% 
         function onlyUnique(value, index, self) { return self.indexOf(value) === index;};
-        console.log(liste_cluster)
         data_db.forEach(function(article) { %>
         <details>
             <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> - Sujets : <%= article.sujets %> </summary>

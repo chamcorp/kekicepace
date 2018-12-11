@@ -210,8 +210,8 @@ app.get('/list_cluster', function (req, res) {
         if (collinfo) {
 			
             let songs = db.collection('articles');
-			unique_cluster = songs.inventory.distinct( "cluster" );
-            console.log(unique_cluster);
+			//unique_cluster = songs.inventory.distinct( "cluster" );
+            //console.log(unique_cluster);
 			
             //articles
             songs.find().collation( { locale: "fr" } ).sort({cluster: -1}).toArray(function (err, articles) {
