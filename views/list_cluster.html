@@ -20,7 +20,7 @@
                 <div style="border: 1px solid #ccc!important;margin-top:20px;position:absolute;align-items: center;justify-content: center;">
                       <% sub_data.forEach(function(article) { %>
                                 <details>
-                                    <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> - Sujets : <%= article.sujets %> </summary>
+                                    <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> </summary>
                                     <%= article.article %>
                                 </details>
                       <% }); %>
