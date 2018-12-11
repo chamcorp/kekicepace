@@ -11,17 +11,15 @@
     </div>
     <div>
         <% for(var i; i< unique_cluster.length; i++){
-                var sub_data = data_db.filter(function(article){return article.cluster >= unique_cluster[i]}); %>
+                var sub_data = data_db.filter(function(art){return art.cluster === unique_cluster[i];}); %>
                 
                 <div>
-            
                     <% sub_data.forEach(function(article) { %>
                         <details>
                             <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> - Sujets : <%= article.sujets %> </summary>
                             <%= article.article %>
                         </details>
                     <% });%>
-                    
                 </div>
                 
          <% }; %>
