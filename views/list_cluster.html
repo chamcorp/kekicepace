@@ -10,19 +10,15 @@
         <a href=/list>articles</a>
     </div>
     <div>
-        <% 
-            var unique_cluster = data_db.distinct("cluster");
-            for(var i; i< unique_cluster.length; i++){
+        <% for(var i; i< unique_cluster.length; i++){
                 var sub_data = data_db.filter(function(art){return art.cluster === unique_cluster[i];}); %>
-                console.log(sub_data)
-                <div>
-                    <% sub_data.forEach(function(article) { %>
+
+                    <% data_db.filter(function(art){return art.cluster === unique_cluster[i];}).forEach(function(article) { %>
                         <details>
-                            <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> - Sujets : <%= article.sujets %> </summary>
-                            <%= article.article %>
+                        <summary>Titre : <%= article.titre %> par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> - Cluster : <%= article.cluster %> - Sujets : <%= article.sujets %> </summary>
+                        <%= article.article %>
                         </details>
                     <% });%>
-                </div>
                 
          <% }; %>
     </div>
