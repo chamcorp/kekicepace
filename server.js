@@ -211,7 +211,8 @@ app.get('/list_cluster', function (req, res) {
 			
             let songs = db.collection('articles');
 			unique_cluster = songs.inventory.distinct( "cluster" );
-            
+            console.log(unique_cluster);
+			
             //articles
             songs.find().collation( { locale: "fr" } ).sort({cluster: -1}).toArray(function (err, articles) {
                 if(err) throw err;
@@ -231,7 +232,7 @@ app.get('/list_cluster', function (req, res) {
         else{  
             let songs = db.collection('articles');
             console.log("NOT FINDING");
-            res.render('list_cluster.html',{data_db : results_db, liste_cluster: unique_cluster});
+            res.render('list_cluster.html',{data_db : results_db});
             client.close(function (err) {
               if(err) throw err;
             });
