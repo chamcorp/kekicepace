@@ -225,7 +225,7 @@ app.get('/list_cluster', function (req, res) {
 									console.log(result);
 									for( var i =0; i< result.length; i++){
 										clusters.push(result);
-									});
+								}});
 								  
 				console.log(clusters)
                 res.render('list_cluster.html', {data_db : results_db, unique_cluster : clusters});
