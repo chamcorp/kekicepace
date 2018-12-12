@@ -208,8 +208,8 @@ app.get('/list_cluster', function (req, res) {
 			
             let songs = db.collection('articles');
 			var unique_cluster = songs.distinct("cluster");
+			console.log(unique_cluster)
 			//var unique_granular_cluster = songs.distinct("granular_cluster");
-            console.log(unique_cluster);
 			
             //articles
             songs.find().collation( { locale: "fr" } ).sort({cluster: -1}).toArray(function (err, articles) {

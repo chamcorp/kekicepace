@@ -11,7 +11,7 @@
     </div>
     <div>
         <% for(var i; i< unique_cluster.length; i++){
-                var sub_data = data_db.filter(function(art){return art.cluster === -1;}); %>
+                var sub_data = data_db.filter(function(art){return art.cluster === unique_cluster[i];}); %>
                 
                 <div>
                     <% sub_data.forEach(function(article) { %>
