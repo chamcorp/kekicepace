@@ -208,19 +208,8 @@ app.get('/list_cluster', function (req, res) {
 			
 			console.log("Into list clusters");
             let songs = db.collection('articles');
-			var unique_cluster = songs.distinct("cluster",
-														   {}, // query object
-														   (function(err, docs){
-																if(err){
-																	return console.log(err);
-																}
-																if(docs){  
-																	console.log(docs);
-																}
-														   })
-														);
+			var unique_cluster = songs.distinct("cluster");
 														
-			//for(var i =0; i < unique_cluster.length; i++){console.log(unique_cluster[i])}
 			console.log("after unique cluster");
 			
 			//var unique_granular_cluster = songs.distinct("granular_cluster");
@@ -236,10 +225,10 @@ app.get('/list_cluster', function (req, res) {
 										article.date = dateArticle.toLocaleDateString();
 										results_db.push(article);
 									});
-
-                res.render('list_cluster.html', {data_db : results_db, unique_cluster : unique_cluster});
-                client.close(function (err) {if(err) throw err;});
             });
+			
+			res.render('list_cluster.html', {data_db : results_db, unique_cluster : unique_cluster});
+            client.close(function (err) {if(err) throw err;});	
         }
         else{  
             let songs = db.collection('articles');
