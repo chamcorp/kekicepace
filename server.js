@@ -208,13 +208,21 @@ app.get('/list_cluster', function (req, res) {
 			
 			console.log("Into list clusters");
             let songs = db.collection('articles');
-			var unique_cluster = []
-			songs.distinct("cluster").forEach(function(item) {
-				unique_cluster.push(item);
-			});
-			
-			console.log(unique_cluster)
+			var unique_cluster = songs.distinct("cluster",
+														   {}, // query object
+														   (function(err, docs){
+																if(err){
+																	return console.log(err);
+																}
+																if(docs){  
+																	console.log(docs);
+																}
+														   })
+														);
+														
+			//for(var i =0; i < unique_cluster.length; i++){console.log(unique_cluster[i])}
 			console.log("after unique cluster");
+			
 			//var unique_granular_cluster = songs.distinct("granular_cluster");
 			
             //articles
