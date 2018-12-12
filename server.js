@@ -219,8 +219,16 @@ app.get('/list_cluster', function (req, res) {
 										article.date = dateArticle.toLocaleDateString();
 										results_db.push(article);
 									});
-
-                res.render('list_cluster.html', {data_db : results_db});
+									
+				songs.distinct("cluster").toArray(function(err, result) {
+									if (err) throw err;
+									console.log(result);
+									for( var i =0; i< result.length; i++){
+										clusters.push(result);
+									});
+								  
+				console.log(clusters)
+                res.render('list_cluster.html', {data_db : results_db, unique_cluster : clusters});
                 client.close(function (err) {if(err) throw err;});
             });
         }
