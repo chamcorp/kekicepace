@@ -8,7 +8,6 @@ const fs = require('fs')
 const results = [];
 const results_db = [];
 const results_counts_db = [];
-const unique_cluster = [];
 
 const mongodb = require('mongodb');
 
@@ -209,7 +208,11 @@ app.get('/list_cluster', function (req, res) {
 			
 			console.log("Into list clusters");
             let songs = db.collection('articles');
-			unique_cluster = songs.distinct("cluster");
+			var unique_cluster = []
+			songs.distinct("cluster").forEach(function(item) {
+				unique_cluster.push(item);
+			});
+			
 			console.log(unique_cluster)
 			console.log("after unique cluster");
 			//var unique_granular_cluster = songs.distinct("granular_cluster");
