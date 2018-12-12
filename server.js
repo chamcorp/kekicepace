@@ -10,6 +10,7 @@ const results_db = [];
 const results_counts_db = [];
 
 const mongodb = require('mongodb');
+const unique_cluster = []
 
 // Create seed data
 
@@ -206,13 +207,8 @@ app.get('/list_cluster', function (req, res) {
     db.listCollections({name: 'articles'}).next(function(err, collinfo) {
         if (collinfo) {
 			
-			console.log("Into list clusters");
             let songs = db.collection('articles');
-														
-			console.log("after unique cluster");
-			
-			//var unique_granular_cluster = songs.distinct("granular_cluster");
-			
+
             //articles
             songs.find().collation( { locale: "fr" } ).sort({cluster: -1}).toArray(function (err, articles) {
                 if(err) throw err;
@@ -225,7 +221,13 @@ app.get('/list_cluster', function (req, res) {
 										results_db.push(article);
 									});
 									
-				var unique_cluster = songs.distinct("cluster");
+				var cluster = songs.distinct("cluster");
+				while(unique_cluster.length > 0) {
+                    unique_cluster.pop();
+                }
+				for(var i = 0; i < cluster.length; i++) {unique_cluster.push(cluster[i])}
+				
+				console.log(unique_cluster);
 				
                 res.render('list_cluster.html', {data_db : results_db, unique_cluster : unique_cluster});
                 client.close(function (err) {if(err) throw err;});
