@@ -221,7 +221,17 @@ app.get('/list_cluster', function (req, res) {
 										results_db.push(article);
 									});
 									
-				var cluster = songs.distinct("cluster");
+				var cluster = songs.distinct("cluster",
+   {}, // query object
+   (function(err, docs){
+        if(err){
+            return console.log(err);
+        }
+        if(docs){  
+            console.log(docs);
+        }
+   })
+);;
 				while(unique_cluster.length > 0) {
                     unique_cluster.pop();
                 }
