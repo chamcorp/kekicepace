@@ -219,19 +219,8 @@ app.get('/list_cluster', function (req, res) {
 										article.date = dateArticle.toLocaleDateString();
 										results_db.push(article);
 									});
-									
-				songs.distinct("cluster",  function(error, clust) { //see the use of distinct
-														if (err) {
-														   console.log(err);
-														} else {
-														  console.log(clust);
-														  clusters.push(clust);
-														}
-													  });
-			
-				console.log(clusters);
-				
-                res.render('list_cluster.html', {data_db : results_db, unique_cluster : clusters});
+
+                res.render('list_cluster.html', {data_db : results_db});
                 client.close(function (err) {if(err) throw err;});
             });
         }

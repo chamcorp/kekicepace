@@ -10,7 +10,10 @@
         <a href=/list>articles</a>
     </div>
     <div>
-        <% for(var i; i< unique_cluster.length; i++){
+        <% 
+            var unique_cluster = data_db.filter(function(elem, pos) {return data_db.indexOf(elem.cluster) == pos.cluster;});
+        
+            for(var i; i< unique_cluster.length; i++){
                 var sub_data = data_db.filter(function(art){return art.cluster === unique_cluster[i];}); %>
                 
                 <div>
