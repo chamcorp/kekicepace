@@ -229,7 +229,7 @@ app.get('/list_cluster', function (req, res) {
 														}
 													  });
 			
-				console.log(unique_cluster);
+				console.log(clusters);
 				
                 res.render('list_cluster.html', {data_db : results_db, unique_cluster : clusters});
                 client.close(function (err) {if(err) throw err;});
