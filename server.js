@@ -8,9 +8,8 @@ const fs = require('fs')
 const results = [];
 const results_db = [];
 const results_counts_db = [];
-
+const clusters = []
 const mongodb = require('mongodb');
-const unique_cluster = []
 
 // Create seed data
 
@@ -221,25 +220,18 @@ app.get('/list_cluster', function (req, res) {
 										results_db.push(article);
 									});
 									
-				var cluster = songs.distinct("cluster",
-   {}, // query object
-   (function(err, docs){
-        if(err){
-            return console.log(err);
-        }
-        if(docs){  
-            console.log(docs);
-        }
-   })
-);;
-				while(unique_cluster.length > 0) {
-                    unique_cluster.pop();
-                }
-				for(var i = 0; i < cluster.length; i++) {unique_cluster.push(cluster[i])}
-				
+				songs.distinct("cluster",  function(error, clust) { //see the use of distinct
+														if (err) {
+														   console.log(err);
+														} else {
+														  console.log(clust);
+														  clusters.push(clust);
+														}
+													  });
+			
 				console.log(unique_cluster);
 				
-                res.render('list_cluster.html', {data_db : results_db, unique_cluster : unique_cluster});
+                res.render('list_cluster.html', {data_db : results_db, unique_cluster : clusters});
                 client.close(function (err) {if(err) throw err;});
             });
         }
