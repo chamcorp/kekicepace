@@ -31,7 +31,7 @@ app.get('/', function (req, res) {
 		var articles = db.collection('articles');
 		var results_counts_db = []
   
-		articles.find({}).collation({locale: "fr"}).sort({cluster: -1}).toArray(function (err, art) {
+		articles.find({}).collation({locale: "fr"}).sort({granular_cluster: -1}).toArray(function (err, art) {
 			if(err) throw err;
 			
 			articles.aggregate([{"$group" : {_id:"$journal", count:{$sum:1}}}]).toArray(function(err, journalCounts) {
