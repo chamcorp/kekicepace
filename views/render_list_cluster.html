@@ -27,7 +27,7 @@
                                 <% sub_data.forEach(function(article) { %>
                                 <details style="padding: 6px;">
                                 <summary> <strong> <%= article.granular_cluster %> </strong>  <%= article.titre %>  </summary>
-                                <div> Par : <%= article.journal %> le : <%= article.date.toLocaleDateString('fr-FR') %> <a href="<%= article.url %>">lien</a> </div>
+                                <div> Par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> </div>
                                 <%= article.article %>
                                 </details>
                              <% }); %>

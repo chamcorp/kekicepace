@@ -45,13 +45,9 @@ app.get('/', function (req, res) {
 			
 				articles.distinct("cluster", {}, function(err, clusters){
 					if(err) throw err;
-					
-					articles.distinct("granular_cluster", {}, function(err, granular_clusters){
-						if(err) throw err;
-						
-						res.render('render_list_cluster.html', {data_db : art, clusters : clusters, granular_cluster : granular_clusters, count: journalCounts}); 
-						client.close(function (err) {if(err) throw err;});
-					});
+					res.render('render_list_cluster.html', {data_db : art, clusters : clusters, count: journalCounts}); 
+					client.close(function (err) {if(err) throw err;});
+
 				});
 			});
 		});
@@ -74,7 +70,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
+  res.status(err.status || 500).send('Something bad happened!');;
 });
 
 app.listen(port, ip);
