@@ -28,13 +28,15 @@ app.get('/', function (req, res) {
   MongoClient.connect(uri, function(err, client) {
 		if(err) throw err;
 		let db = client.db('heroku_0mpp4r58');
-		var articles = db.collection('articles');
+		var articles_db = db.collection('articles');
+		var clusters_db = db.collection('clusters');
+		console.log("cluster uploaded")
 		var results_counts_db = []
   
-		articles.find({}).collation({locale: "fr"}).sort({granular_cluster: -1}).toArray(function (err, art) {
+		articles_db.find({}).collation({locale: "fr"}).sort({cluster:-1, granular_cluster: -1}).toArray(function (err, art) {
 			if(err) throw err;
 			
-			articles.aggregate([{"$group" : {_id:"$journal", count:{$sum:1}}}]).toArray(function(err, journalCounts) {
+			articles_db.aggregate([{"$group" : {_id:"$journal", count:{$sum:1}}}]).toArray(function(err, journalCounts) {
 					if(err) throw err;
 					while(results_counts_db.length > 0) {
 						results_counts_db.pop();
@@ -43,9 +45,9 @@ app.get('/', function (req, res) {
 						results_counts_db.push(journalCount);
 					});
 			
-				articles.distinct("cluster", {}, function(err, clusters){
+				clusters_db.find({}).collation({locale: "fr"}).sort({cluster: -1}).toArray(function (err, clusters) {
 					if(err) throw err;
-					res.render('render_list_cluster.html', {data_db : art, clusters : clusters, count: journalCounts}); 
+					res.render('render_list_cluster.html', {data_db : art, cluster_db : clusters, count: journalCounts}); 
 					client.close(function (err) {if(err) throw err;});
 
 				});

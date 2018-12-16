@@ -19,20 +19,24 @@
             
             <div class="col-md-9">
                 <% 
-                    var  sorted_cluster = clusters.sort().reverse();
-                    for(var i =0; i < sorted_cluster.length; i++){
-                        var sub_data = data_db.filter(function(article){return article.cluster === clusters[i];});%>
+                    cluster_db.forEach(function(clusters) {
+                        var sub_data = data_db.filter(function(article){return article.cluster.toString() === clusters.cluster;});%>
                         
                         <div style="border: 2px solid #ccc!important;margin-top:10px;margin-bottom: 10px; align-items: center;justify-content: center;">
+                                <div>
+                                    <strong> <%= clusters.titre%>  </strong> <%= clusters.mot_cles%> <%= clusters.nbr_articles%> 
+                                </div>
+                                <div>
                                 <% sub_data.forEach(function(article) { %>
-                                <details style="padding: 6px;">
-                                <summary> <strong> <%= article.granular_cluster %> </strong>  <%= article.titre %>  </summary>
-                                <div> Par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> </div>
-                                <%= article.article %>
-                                </details>
-                             <% }); %>
+                                    <details style="padding: 6px;">
+                                    <summary> <strong> <%= article.granular_cluster %> </strong>  <%= article.titre %>  </summary>
+                                    <div> Par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> </div>
+                                    <%= article.article %>
+                                    </details>
+                                <% }); %>
+                                </div>
                          </div>
-                <% };%>
+                <% });%>
             </div>
         </div>
     </div>
