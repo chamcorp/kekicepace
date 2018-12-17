@@ -24,12 +24,12 @@
                         
                         <div style="border: 2px solid #ccc!important;margin-top:10px;margin-bottom: 10px; align-items: center;justify-content: center;">
                                 <div>
-                                    <strong> <%= clusters.titre%>  </strong> <%= clusters.mot_cles%> <%= clusters.nbr_articles%> 
+                                    <strong> <%= clusters.titre%>  </strong> <%= clusters.mot_cles%> <%= clusters.nbr_articles%>  
                                 </div>
                                 <div>
                                 <% sub_data.forEach(function(article) { %>
                                     <details style="padding: 6px;">
-                                    <summary> <strong> <%= article.granular_cluster %> </strong>  <%= article.titre %>  </summary>
+                                    <summary> <strong> <%= article.granular_cluster %> </strong>  <%= article.titre %>  <strong><%= article.sujets %></strong></summary>
                                     <div> Par : <%= article.journal %> le : <%= article.date %> <a href="<%= article.url %>">lien</a> </div>
                                     <%= article.article %>
                                     </details>
